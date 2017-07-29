@@ -1,20 +1,14 @@
-language: ruby
 dist: trusty
 sudo: false
-cache: bundler
-rvm:
-  - 2.4.1
-addons:
-  apt:
-    packages:
-      - vim-gtk
+language: none
+services:
+  - docker
 branches:
   only:
     - master
 before_script:
   - pip install --user vim-vint
-  - vim --version
-  - Xvfb :99 &
+  - docker build -t vim-python-pep8-indent .
 script:
-  - VIMRUNNER_REUSE_SERVER=1 DISPLAY=:99 bundle exec rspec spec
+  - docker run -ti --rm vim-python-pep8-indent
   - vint **/*.vim

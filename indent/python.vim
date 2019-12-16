@@ -222,7 +222,9 @@ function! s:indent_like_opening_paren(lnum)
         if starts_with_closing_paren && !hang_closing
             let res = base
         else
-            let res = base + s:sw()
+            " per aykamko:
+            " if defined in var, override this hanging indent width
+            let res = base + get(g:, 'python_pep8_hanging_indent_width', s:sw())
 
             " Special case for parenthesis.
             if text[paren_col-1] ==# '(' && getline(a:lnum) !~# '\v\)\s*:?\s*$'
